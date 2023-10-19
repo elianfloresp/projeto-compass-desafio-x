@@ -1,0 +1,48 @@
+a,
+button,
+input,
+select, 
+h1,
+h2,
+h3,
+h4,
+h5,
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  appearance: none;
+  background: none;
+}
+
+:root {
+  background: #D9E6F7;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.navegation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  
+}
+
+.Editprofile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
