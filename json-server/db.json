@@ -1,9 +1,0 @@
-{
-    "users": [],
-    "posts": [],
-    "secret": {
-      "token": "your-secret-token",
-      "refreshToken": "your-refresh-token"
-    }
-  }
-  

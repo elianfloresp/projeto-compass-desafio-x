@@ -1,5 +1,6 @@
 import React from "react";
 import Header from './components/UI/StyledHeader';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { Outlet } from 'react-router-dom';
 import Footer from './components/UI/Footer';
