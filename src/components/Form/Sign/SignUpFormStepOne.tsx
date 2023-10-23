@@ -39,7 +39,8 @@ const SignUpFormStepOne: FC = () => {
 
     setError("");
 
-    const { displayName, email, password,  profession, country, city, birth } = userData;
+    const { displayName, email, password, profession, country, city, birth } =
+      userData;
     const user = {
       displayName,
       email,
@@ -50,6 +51,7 @@ const SignUpFormStepOne: FC = () => {
       birth,
     };
     console.log("teste", user);
+    console.log("teste", userData.email);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +66,7 @@ const SignUpFormStepOne: FC = () => {
       <Title style={{ paddingBottom: "0" }}>Cadastre-se no UOLkut</Title>
       <Input
         id="sign-up-email"
+        name="email"
         placeholder="E-mail"
         style={{ marginTop: "1.25rem", marginBottom: "1rem" }}
         type="email"
@@ -72,6 +75,7 @@ const SignUpFormStepOne: FC = () => {
       />
       <Input
         id="sign-up-password"
+        name="password"
         placeholder="Senha"
         type="password"
         value={userData.password}
@@ -79,7 +83,8 @@ const SignUpFormStepOne: FC = () => {
       />
       <Input
         id="sign-up-name"
-        placeholder="Nome"
+        name="displayName"
+        placeholder="Name"
         type="text"
         value={userData.displayName}
         onChange={handleChange}
@@ -90,6 +95,7 @@ const SignUpFormStepOne: FC = () => {
           <Input
             id="sign-up-birthday"
             className="small-input"
+            name="birth"
             placeholder={isMobile ? "DD/MM/AAAA" : "birth"}
             type="text"
             value={userData.birth}
@@ -100,6 +106,7 @@ const SignUpFormStepOne: FC = () => {
 
         <Input
           id="sign-up-occupation"
+          name="profession"
           className="small-input"
           placeholder="Profissão"
           type="text"
@@ -109,6 +116,7 @@ const SignUpFormStepOne: FC = () => {
 
         <Input
           id="sign-up-country"
+          name="country"
           className="small-input"
           placeholder="País"
           type="text"
@@ -117,6 +125,7 @@ const SignUpFormStepOne: FC = () => {
         />
         <Input
           id="sign-up-city"
+          name="city"
           className="small-input"
           placeholder="Cidade"
           type="text"
@@ -127,9 +136,11 @@ const SignUpFormStepOne: FC = () => {
 
       <CustomSelectMenu style={{ marginTop: "0", marginBottom: "2.31rem" }} />
 
-      <LinkButton style={{ marginTop: "0", marginBottom: "0" }} to="/">
-        Criar conta
-      </LinkButton>
+      <div onClick={handleSubmit}>
+        <LinkButton style={{ marginTop: "0", marginBottom: "0" }} to="/">
+          Criar conta
+        </LinkButton>
+      </div>
     </FormContainer>
   );
 };
