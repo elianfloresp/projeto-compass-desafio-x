@@ -11,6 +11,14 @@ import {
 import LinkButton from "../../UI/LinkButton";
 import CustomSelectMenu from "../../UI/StyledSelect";
 import { useState, useEffect } from "react";
+import { useAuthentication } from "../../../hooks/useAuthentication";
+
+interface AuthenticationData {
+  auth: any; // Substitua 'any' pelo tipo correto, se possível
+  createUser: (data: any) => Promise<any>;
+  error: null | string;
+  loading: null | boolean;
+}
 
 interface UserData {
   displayName: string;
@@ -20,6 +28,7 @@ interface UserData {
   country: string;
   city: string;
   birth: string;
+  civilStatus: string;
 }
 
 const SignUpFormStepOne: FC = () => {
@@ -32,15 +41,31 @@ const SignUpFormStepOne: FC = () => {
     country: "",
     city: "",
     birth: "",
+    civilStatus: "",
   });
 
-  const handleSubmit = (e: FormEvent) => {
+  const { createUser, error: authError, loading }: AuthenticationData = useAuthentication();
+
+  const handleCivilStatusChange = (selectedStatus: string) => {
+    setUserData({ ...userData, civilStatus: selectedStatus });
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+  
     setError("");
-
-    const { displayName, email, password, profession, country, city, birth } =
-      userData;
+  
+    const {
+      displayName,
+      email,
+      password,
+      profession,
+      country,
+      city,
+      birth,
+      civilStatus,
+    } = userData;
+  
     const user = {
       displayName,
       email,
@@ -49,17 +74,37 @@ const SignUpFormStepOne: FC = () => {
       country,
       city,
       birth,
+      civilStatus,
     };
-    console.log("teste", user);
-    console.log("teste", userData.email);
+    console.log("user", user)  
+    try {
+      const res = await createUser(user);
+  
+      // Trate a resposta aqui, se necessário
+    } catch (error) {
+      // Trate erros, se houver algum
+    }
   };
+
+ 
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
+  
+
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+
+  useEffect (() =>{
+
+    if(authError) {
+      setError(authError)
+    }
+  }, [authError])
+
 
   return (
     <FormContainer className="no-padding-top">
@@ -84,7 +129,7 @@ const SignUpFormStepOne: FC = () => {
       <Input
         id="sign-up-name"
         name="displayName"
-        placeholder="Name"
+        placeholder="Nome"
         type="text"
         value={userData.displayName}
         onChange={handleChange}
@@ -96,7 +141,7 @@ const SignUpFormStepOne: FC = () => {
             id="sign-up-birthday"
             className="small-input"
             name="birth"
-            placeholder={isMobile ? "DD/MM/AAAA" : "birth"}
+            placeholder={isMobile ? "DD/MM/AAAA" : "Nascimento"}
             type="text"
             value={userData.birth}
             onChange={handleChange}
@@ -134,13 +179,21 @@ const SignUpFormStepOne: FC = () => {
         />
       </GridInputContainer>
 
-      <CustomSelectMenu style={{ marginTop: "0", marginBottom: "2.31rem" }} />
+      <CustomSelectMenu
+        style={{ marginTop: "0", marginBottom: "2.31rem" }}
+        onCivilStatusChange={handleCivilStatusChange}
+        onSelectionChange={function (value: any): unknown {
+          throw new Error("Function not implemented.");
+        }}
+      />
 
       <div onClick={handleSubmit}>
-        <LinkButton style={{ marginTop: "0", marginBottom: "0" }} to="/">
+        {!loading && <LinkButton style={{ marginTop: "0", marginBottom: "0" }} to="/">
           Criar conta
-        </LinkButton>
+        </LinkButton>}
+        {error && <p className="error">{error}</p>}
       </div>
+      
     </FormContainer>
   );
 };

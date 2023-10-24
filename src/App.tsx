@@ -6,6 +6,10 @@ import { Outlet } from 'react-router-dom';
 import Footer from './components/UI/Footer';
 import { styled } from 'styled-components';
 import useMediaQuery from './hooks/use-media-query';
+import { AuthProvider } from "./context/AuthContext";
+import { onAuthStateChanged } from '@firebase/auth';
+import { useState, useEffect } from "react";
+import { useAuthentication } from './hooks/useAuthentication';
 
 const MainContent = styled.main`
   display: flex;
