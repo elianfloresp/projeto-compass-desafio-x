@@ -6,15 +6,13 @@ import {
   updateProfile,
   signOut,
 } from "firebase/auth";
-
 import { useState, useEffect } from "react";
 
 export const useAuthentication = () => {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState<string | null >(null);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<import("firebase/auth").User | null>(null);
 
-  // Limpeza
-  // Lidar com vazamentos de memória
   const [cancelled, setCancelled] = useState(false);
 
   const auth = getAuth();
@@ -25,25 +23,25 @@ export const useAuthentication = () => {
     }
   }
 
-  const createUser = async (data) => {
+  const createUser = async (data: any) => {
     checkIfIsCancelled();
     setLoading(true);
 
     try {
-      const { user } = await createUserWithEmailAndPassword(
+      const { user: newUser } = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
 
-      await updateProfile(user, {
+      await updateProfile(newUser, {
         displayName: data.displayName,
       });
-      setLoading(false); // Defina o estado de carregamento como falso em caso de sucesso
-      return user;
-    } catch (error) {
+      setUser(newUser);
+      setLoading(false);
+      return newUser;
+    } catch (error: any) {
       console.log(error.message);
-      console.log(typeof error.message);
 
       let systemErrorMessage;
 
@@ -52,12 +50,12 @@ export const useAuthentication = () => {
       } else if (error.message.includes("email-already")) {
         systemErrorMessage = "E-mail já cadastrado.";
       } else {
-        systemErrorMessage = "Ocorreu erro, por favor tente mais tarde.";
+        systemErrorMessage = "Ocorreu um erro, por favor tente mais tarde.";
       }
 
       setError(systemErrorMessage);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -67,7 +65,9 @@ export const useAuthentication = () => {
   return {
     auth,
     createUser,
+    user,
     error,
     loading,
+    setUser,
   };
 };

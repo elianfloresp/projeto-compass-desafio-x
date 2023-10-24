@@ -1,15 +1,15 @@
 import React from "react";
 import Header from './components/UI/StyledHeader';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
 import { Outlet } from 'react-router-dom';
 import Footer from './components/UI/Footer';
 import { styled } from 'styled-components';
 import useMediaQuery from './hooks/use-media-query';
-import { AuthProvider } from "./context/AuthContext";
 import { onAuthStateChanged } from '@firebase/auth';
 import { useState, useEffect } from "react";
 import { useAuthentication } from './hooks/useAuthentication';
+
+
 
 const MainContent = styled.main`
   display: flex;
@@ -17,6 +17,9 @@ const MainContent = styled.main`
   align-items: center;
   justify-content: center;
 `;
+
+
+
 
 const App = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');

@@ -11,10 +11,11 @@ import ChangePasswordPage from "./pages/ChangePassword";
 import SigningLayout from "./pages/SigningLayout";
 import ProfilePage from "./pages/ProfileScreen";
 import Editprofile from "./pages/EditProfile";
-import { AuthProvider } from "./context/AuthContext";
-import { onAuthStateChanged, User } from "@firebase/auth";
+import { onAuthStateChanged, Auth } from "@firebase/auth";
 import { useState, useEffect } from "react";
 import { useAuthentication } from "./hooks/useAuthentication";
+
+
 
 const router = createBrowserRouter([
   {
@@ -49,32 +50,37 @@ root.render(
 );
 
 function AppWrapper() {
-  const [user, setUser] = useState(null as User | null);
-  const [auth] = useAuthentication()
+
+  const { auth, createUser, user, error, loading, setUser } = useAuthentication();
 
 
   const loadingUser = user === null;
 
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user)
-    })
-    
-  }, [auth]);
-
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      setUser(authUser);
+    });
+  
+    return () => {
+      unsubscribe();
+    };
+  }, [auth, setUser]);
+  
 
   if (loadingUser) {
     return <p>Carregandor...</p>; 
    }
 
   return (
-    <AuthProvider value={user}>
-      <App />
-    </AuthProvider>
+    <App />
+    // <AuthProvider>
+    //   <App />
+    // </AuthProvider>
   );
 }
 
 
 
 reportWebVitals();
+
