@@ -1,19 +1,23 @@
-// import { useContext, createContext, useState } from "react";
+import { User } from "firebase/auth";
+import { createContext, useContext, useState, ReactNode } from "react";
 
-// const AuthContext = createContext();
+interface AuthProviderProps {
+  value: {
+    user: User | null;
+  };
+  children: ReactNode;
+}
+const AuthContext = createContext(null);
 
-// export function AuthProvider({ children }) {
-//   const [user, setUser] = useState(null);
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState(null);
 
- 
-//   return (
-//     <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
-//   );
-// }
-
-// export function useAuthValue() {
-//   return useContext(AuthContext);
-// }
+  return (
+    <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
+  );
+}
 
 
-export {}
+export function useAuthValue() {
+  return useContext(AuthContext);
+}

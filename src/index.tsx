@@ -14,6 +14,7 @@ import Editprofile from "./pages/EditProfile";
 import { onAuthStateChanged, Auth } from "@firebase/auth";
 import { useState, useEffect } from "react";
 import { useAuthentication } from "./hooks/useAuthentication";
+import {AuthProvider} from '../src/context/AuthContext';
 
 
 
@@ -54,7 +55,7 @@ function AppWrapper() {
   const { auth, createUser, user, error, loading, setUser } = useAuthentication();
 
 
-  const loadingUser = user === null;
+  const loadingUser = user === undefined;
 
 
   useEffect(() => {
@@ -69,14 +70,14 @@ function AppWrapper() {
   
 
   if (loadingUser) {
-    return <p>Carregandor...</p>; 
+    return <p>Carregando...</p>; 
    }
 
   return (
-    <App />
-    // <AuthProvider>
-    //   <App />
-    // </AuthProvider>
+   
+    <AuthProvider value={{user}}>
+      <App />
+    </AuthProvider>
   );
 }
 
