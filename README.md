@@ -1,9 +1,13 @@
 # UolKut
 
-This repository contains the challenge proposed in the 8th week of the COMPASS.UOL scholarship program.
+This repository contains the challenge proposed in the 10th week of the COMPASS.UOL scholarship program.
 
 
-> This project was initiated using the Create React App tool along with the TypeScript template provided by them.
+> This project was started using the Create React App tool along with the TypeScript template provided by them, thus with the following requirements:
+
+👉 **API Integration**: How to manage API calls, errors and loading states.
+
+👉 **Authentication**: Implementation and correct use of JWT.
 
 
 >The project layout can be accessed on this Figma link. [figma](https://www.figma.com/file/I0Hp1SugsgzkAxqnj38WYc/Desafio-VIII---UolKut?node-id=2001%3A10&mode=dev).
